@@ -1,0 +1,145 @@
+openapi: 3.0.3
+info:
+  title: Payment API
+  version: 1.1.0
+  description: An API for handling payments between payers and receivers using digital signatures on the payment ID.
+servers:
+  - url: https://api.paymentservice.com/v1
+paths:
+  /payments:
+    post:
+      summary: Create a payment request
+      description: Receiver creates a new payment request.
+      tags:
+        - Payments
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRequest'
+      responses:
+        '201':
+          description: Payment request created successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentResponse'
+        '400':
+          description: Invalid input.
+  /payments/{paymentId}:
+    get:
+      summary: Get payment details
+      description: Retrieve the details of a specific payment request.
+      tags:
+        - Payments
+      parameters:
+        - in: path
+          name: paymentId
+          required: true
+          schema:
+            type: string
+          description: ID of the payment request.
+      responses:
+        '200':
+          description: Payment details retrieved successfully.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaymentDetails'
+        '404':
+          description: Payment request not found.
+  /payments/{paymentId}/confirm:
+    post:
+      summary: Confirm payment
+      description: Payer confirms the payment by sending back the signed payment ID.
+      tags:
+        - Payments
+      parameters:
+        - in: path
+          name: paymentId
+          required: true
+          schema:
+            type: string
+          description: ID of the payment request.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                payerId:
+                  type: string
+                  description: Unique identifier of the payer.
+                signedPaymentId:
+                  type: string
+                  description: The payer's digital signature of the payment ID.
+      responses:
+        '200':
+          description: Payment confirmed successfully.
+        '400':
+          description: Invalid signature or input.
+        '404':
+          description: Payment request not found.
+components:
+  schemas:
+    PaymentRequest:
+      type: object
+      required:
+        - amount
+        - currency
+        - receiverId
+      properties:
+        amount:
+          type: number
+          format: decimal
+          description: The amount to be paid.
+        currency:
+          type: string
+          description: Currency code (e.g., USD, EUR).
+        receiverId:
+          type: string
+          description: Unique identifier of the receiver.
+        description:
+          type: string
+          description: Optional description of the payment.
+    PaymentResponse:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          description: Unique identifier for the payment request.
+        status:
+          type: string
+          description: Status of the payment request.
+          enum:
+            - pending
+            - confirmed
+            - cancelled
+    PaymentDetails:
+      type: object
+      properties:
+        paymentId:
+          type: string
+          description: Unique identifier for the payment request.
+        amount:
+          type: number
+          format: decimal
+          description: The amount to be paid.
+        currency:
+          type: string
+          description: Currency code (e.g., USD, EUR).
+        receiverId:
+          type: string
+          description: Unique identifier of the receiver.
+        description:
+          type: string
+          description: Optional description of the payment.
+        status:
+          type: string
+          description: Status of the payment request.
+          enum:
+            - pending
+            - confirmed
+            - cancelled

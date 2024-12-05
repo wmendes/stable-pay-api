@@ -20,7 +20,7 @@ import { Payment } from './payments/entities/payment.entity';
         database: process.env.PGDATABASE,
         autoLoadEntities: true,
         entities: [Payment],
-        synchronize: configService.get('NODE_ENV') !== 'production',
+        synchronize: true,
       }),
       inject: [ConfigService],
     }),

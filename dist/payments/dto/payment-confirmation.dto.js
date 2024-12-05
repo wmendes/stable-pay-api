@@ -11,15 +11,24 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentConfirmationDto = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class PaymentConfirmationDto {
 }
 exports.PaymentConfirmationDto = PaymentConfirmationDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Unique identifier of the payer',
+        example: 'payer123',
+    }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], PaymentConfirmationDto.prototype, "payerId", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Digital signature of the payment ID',
+        example: 'a1b2c3d4e5f6...',
+    }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

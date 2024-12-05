@@ -11,25 +11,42 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.PaymentRequestDto = void 0;
 const class_validator_1 = require("class-validator");
+const swagger_1 = require("@nestjs/swagger");
 class PaymentRequestDto {
 }
 exports.PaymentRequestDto = PaymentRequestDto;
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'The amount to be paid',
+        example: 100.50,
+    }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsNumber)(),
     __metadata("design:type", Number)
 ], PaymentRequestDto.prototype, "amount", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Currency code (e.g., USD, EUR)',
+        example: 'USD',
+    }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], PaymentRequestDto.prototype, "currency", void 0);
 __decorate([
+    (0, swagger_1.ApiProperty)({
+        description: 'Unique identifier of the receiver',
+        example: 'receiver123',
+    }),
     (0, class_validator_1.IsNotEmpty)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)
 ], PaymentRequestDto.prototype, "receiverId", void 0);
 __decorate([
+    (0, swagger_1.ApiPropertyOptional)({
+        description: 'Optional description of the payment',
+        example: 'Payment for services',
+    }),
     (0, class_validator_1.IsOptional)(),
     (0, class_validator_1.IsString)(),
     __metadata("design:type", String)

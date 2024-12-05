@@ -109,3 +109,4 @@ ssl/
 
 # Ignores the compiled code after build
 out/
+node_modules
